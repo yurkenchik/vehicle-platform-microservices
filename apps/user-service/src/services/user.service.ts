@@ -77,13 +77,14 @@ export class UserService {
     async deleteUser(id: string): Promise<DeleteRecordResponseDto> {
         const deletedUserQueryResult = await this.userRepository
             .createQueryBuilder()
+            .delete()
             .where({ id })
-            .delete();
+            .execute();
 
         this.userServiceClientProxy.emit(EventMessages.User.Deleted, {
             type: EventMessages.User.Deleted,
             data: { id: deletedUserQueryResult.insertId }
         });
-        return { id: deletedUserQueryResult.insertId };
+        return { id };
     }
 }

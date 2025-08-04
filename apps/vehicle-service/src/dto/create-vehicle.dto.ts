@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString, Max, Min } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString, IsUUID, Max, Min } from "class-validator";
 
 export class CreateVehicleDto {
     @IsNotEmpty()
@@ -14,4 +14,9 @@ export class CreateVehicleDto {
     @Min(1950)
     @Max(new Date().getFullYear())
     readonly year: number;
+
+    @IsString()
+    @IsUUID()
+    @IsNotEmpty()
+    readonly userId: string;
 }

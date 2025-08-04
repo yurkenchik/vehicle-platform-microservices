@@ -2,7 +2,7 @@ import { Collection, Entity, OneToMany, PrimaryKey, Property } from "@mikro-orm/
 import { VehicleEntity } from "@app/common/entities/vehicle.entity";
 import { CommonEntityInterface } from "@app/common/interfaces/common-entity.interface";
 
-@Entity()
+@Entity({ tableName: "user" })
 export class UserEntity implements CommonEntityInterface {
     @PrimaryKey()
     id: string;

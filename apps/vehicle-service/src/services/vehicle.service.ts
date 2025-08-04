@@ -53,10 +53,11 @@ export class VehicleService {
 
     async createVehicle(createVehicleDto: CreateVehicleDto): Promise<VehicleEntity> {
         const id = uuid();
+        const { userId, ...vehiclePayloadData } = createVehicleDto;
 
         await this.vehicleRepository
             .createQueryBuilder()
-            .insert({ id, ...createVehicleDto })
+            .insert({ id, ...vehiclePayloadData, user: userId })
             .execute();
 
         const vehicle = await this.getVehicleById(id);
@@ -66,8 +67,8 @@ export class VehicleService {
     async updateVehicle(id: string, updateVehicleDto: UpdateVehicleDto): Promise<VehicleEntity> {
         await this.vehicleRepository
             .createQueryBuilder()
-            .where({ id })
             .update(updateVehicleDto)
+            .where({ id })
             .execute();
 
         const updatedVehicle = await this.getVehicleById(id);
@@ -77,9 +78,10 @@ export class VehicleService {
     async deleteVehicle(id: string): Promise<DeleteRecordResponseDto> {
         const deleteQueryResult = await this.vehicleRepository
             .createQueryBuilder()
+            .delete()
             .where({ id })
-            .delete();
+            .execute();
 
-        return { id: deleteQueryResult.insertId };
+        return { id };
     }
 }
