@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Logger, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Logger, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import { UserService } from "../services/user.service";
 import { CreateUserDto } from "../dto/request/create-user.dto";
 import { UserEntity } from "@app/common/entities/user.entity";
@@ -7,7 +7,9 @@ import { DeleteRecordResponseDto } from "@app/common/dto/response/delete-record-
 import { Ctx, EventPattern, Payload, RmqContext } from "@nestjs/microservices";
 import { EventMessages } from "@app/common";
 import { UserCreatedEventInterface } from "@app/common/interfaces/events";
+import { AuthorizationGuard } from "@app/common/authorization/authorization.guard";
 
+@UseGuards(AuthorizationGuard)
 @Controller('users')
 export class UserController {
     private readonly logger: Logger = new Logger(UserController.name);

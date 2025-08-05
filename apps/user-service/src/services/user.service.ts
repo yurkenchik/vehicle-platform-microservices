@@ -9,7 +9,7 @@ import { CreateUserDto } from "../dto/request/create-user.dto";
 import { UpdateUserDto } from "../dto/request/update-user.dto";
 import { DeleteRecordResponseDto } from "@app/common/dto/response/delete-record-response.dto";
 import { v4 as uuid } from "uuid";
-import { Services } from "../shared/constants/services";
+import { Services } from "@app/common/constants/services";
 import { lastValueFrom } from "rxjs";
 
 @Injectable()
@@ -22,11 +22,11 @@ export class UserService {
     ) {}
 
     async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
-        const id = uuid();
+        const { id, email, hashedPassword } = createUserDto;
 
         await this.userRepository
             .createQueryBuilder()
-            .insert({ id, ...createUserDto })
+            .insert({ id, email, password: hashedPassword })
             .execute();
         const user = await this.getUserById(id);
 

@@ -10,6 +10,9 @@ export class UserEntity implements CommonEntityInterface {
     @Property()
     email: string;
 
+    @Property()
+    password: string;
+
     @OneToMany(() => VehicleEntity, vehicle => vehicle.user)
     vehicles: Collection<VehicleEntity> = new Collection<VehicleEntity>(this);
 }
